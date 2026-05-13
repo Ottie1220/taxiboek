@@ -444,14 +444,20 @@ function sendEmail(e) {
   const email = document.getElementById('email-input').value;
   const btn = document.getElementById('submit-btn');
   const note = document.getElementById('form-note');
-  
+
   btn.textContent = 'Even geduld...';
   btn.disabled = true;
 
-  emailjs.send('service_86p3ntf', 'template_1pjjs2b', {
-    email: email,
+  const params = {
     to_email: email,
-  }).then(function() {
+  };
+
+  // Stuur welkomstmail naar klant
+  const mail1 = emailjs.send('service_86p3ntf', 'template_1pjjs2b', params);
+  // Stuur notificatie naar jou
+  const mail2 = emailjs.send('service_86p3ntf', 'template_9x422dz', params);
+
+  Promise.all([mail1, mail2]).then(function() {
     window.location.href = 'https://ottie1220.github.io/taxiboek/bedankt.html';
   }, function(error) {
     btn.textContent = 'Meld je aan!';
