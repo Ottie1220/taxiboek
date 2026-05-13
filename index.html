@@ -406,7 +406,7 @@
 <div class="cta-section" id="aanmelden">
   <h2>Klaar om te starten?</h2>
   <p>Gratis proberen. Geen creditcard nodig. Opzeggen wanneer je wilt.</p>
-  <form class="cta-form" onsubmit="handleSubmit(event)">
+  <form class="cta-form" action="https://formspree.io/f/mdabjvzn" method="POST">
     <input type="email" placeholder="jouw@email.nl" required />
     <button type="submit" class="btn-dark">Aanmelden</button>
   </form>
@@ -443,13 +443,6 @@ function updateProgress() {
   const pct = Math.round((checked / total) * 100);
   document.getElementById('progress-fill').style.width = pct + '%';
   document.getElementById('progress-text').textContent = checked;
-}
-
-function handleSubmit(e) {
-  e.preventDefault();
-  const email = e.target.querySelector('input').value;
-  alert('Bedankt! We nemen binnen 24 uur contact op via ' + email);
-  e.target.reset();
 }
 </script>
 
