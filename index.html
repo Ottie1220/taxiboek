@@ -37,11 +37,40 @@
   .mobile-menu a { font-size: 15px; color: var(--text); text-decoration: none; font-weight: 500; padding: 12px 0; border-bottom: 1px solid var(--border); }
   .mobile-menu a:last-child { border-bottom: none; background: var(--accent); color: var(--dark); text-align: center; border-radius: 8px; padding: 12px; margin-top: 8px; font-weight: 700; }
 
-  /* HERO */
-  .hero { background: var(--dark); min-height: 560px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 60px 24px; position: relative; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; top: -100px; left: -100px; width: 400px; height: 400px; background: var(--accent); opacity: 0.05; border-radius: 50%; }
-  .hero::after { content: ''; position: absolute; bottom: -80px; right: -80px; width: 300px; height: 300px; background: var(--accent); opacity: 0.04; border-radius: 50%; }
-  .hero-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(245,200,66,0.15); border: 1px solid rgba(245,200,66,0.3); border-radius: 20px; padding: 6px 14px; font-size: 12px; color: var(--accent); margin-bottom: 24px; font-weight: 500; letter-spacing: 0.04em; }
+  /* HERO ANIMATIE DAG/NACHT */
+  .hero { min-height: 560px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 60px 24px 120px; position: relative; overflow: hidden; transition: background 2s ease; }
+  .hero-sky { position: absolute; inset: 0; transition: background 2s ease; }
+  .hero-sun { position: absolute; width: 64px; height: 64px; border-radius: 50%; background: #fde68a; box-shadow: 0 0 40px rgba(253,230,138,0.8), 0 0 80px rgba(253,230,138,0.3); transition: all 2s ease; }
+  .hero-moon { position: absolute; width: 44px; height: 44px; border-radius: 50%; background: #e2e8f0; box-shadow: 0 0 20px rgba(226,232,240,0.6); transition: all 2s ease; opacity: 0; }
+  .hero-star { position: absolute; width: 2px; height: 2px; background: #fff; border-radius: 50%; animation: star-twinkle ease-in-out infinite; }
+  @keyframes star-twinkle { 0%,100% { opacity: 0.1; } 50% { opacity: 1; } }
+  .hero-cloud { position: absolute; animation: cloud-drift linear infinite; }
+  @keyframes cloud-drift { from { transform: translateX(-200px); } to { transform: translateX(110vw); } }
+  .hero-ground { position: absolute; bottom: 0; left: 0; right: 0; height: 80px; transition: background 2s ease; }
+  .hero-road { position: absolute; bottom: 0; left: 0; right: 0; height: 64px; }
+  .hero-road-surface { position: absolute; bottom: 0; left: 0; right: 0; height: 60px; transition: background 2s ease; background: #1e1e1e; }
+  .hero-road-edge { position: absolute; bottom: 60px; left: 0; right: 0; height: 3px; background: rgba(245,200,66,0.4); }
+  .hero-road-line { position: absolute; bottom: 26px; left: 0; right: 0; height: 4px; background: repeating-linear-gradient(90deg, rgba(255,255,255,0.2) 0px, rgba(255,255,255,0.2) 40px, transparent 40px, transparent 80px); animation: road-dash 1.2s linear infinite; }
+  @keyframes road-dash { from { background-position: 0; } to { background-position: 80px; } }
+  .hero-pole { position: absolute; bottom: 60px; display: flex; flex-direction: column; align-items: center; z-index: 2; }
+  .hero-pole-arm { width: 22px; height: 3px; background: #475569; border-radius: 2px; align-self: flex-end; }
+  .hero-pole-light { width: 20px; height: 10px; border-radius: 4px; background: #fbbf24; transition: box-shadow 2s, opacity 2s; }
+  .hero-pole-stick { width: 4px; height: 65px; background: #475569; border-radius: 2px; }
+  .hero-pole-glow { position: absolute; bottom: 0; width: 90px; height: 70px; border-radius: 50%; background: radial-gradient(ellipse, rgba(251,191,36,0.3) 0%, transparent 70%); transition: opacity 2s; }
+  .hero-taxi { position: absolute; bottom: 4px; font-size: 54px; animation: hero-taxi-go linear infinite; filter: drop-shadow(0 4px 14px rgba(245,200,66,0.5)); z-index: 3; }
+  .hero-taxi:nth-child(1) { animation-duration: 8s; animation-delay: 0s; }
+  .hero-taxi:nth-child(2) { animation-duration: 13s; animation-delay: -5s; font-size: 42px; opacity: 0.75; bottom: 8px; }
+  .hero-taxi:nth-child(3) { animation-duration: 10s; animation-delay: -3s; font-size: 48px; }
+  @keyframes hero-taxi-go { from { transform: translateX(-120px); } to { transform: translateX(110vw); } }
+  .hero-badge { position: absolute; border-radius: 10px; padding: 8px 14px; font-size: 12px; font-weight: 600; animation: hero-badge-bob ease-in-out infinite; border: 1px solid; z-index: 4; }
+  .hero-badge-1 { background: rgba(22,163,74,0.2); border-color: rgba(22,163,74,0.4); color: #4ade80; top: 14%; left: 4%; animation-duration: 4s; }
+  .hero-badge-2 { background: rgba(245,200,66,0.15); border-color: rgba(245,200,66,0.4); color: #f5c842; top: 12%; right: 4%; animation-duration: 5s; animation-delay: -1.5s; }
+  .hero-badge-3 { background: rgba(99,102,241,0.15); border-color: rgba(99,102,241,0.4); color: #a5b4fc; bottom: 28%; left: 4%; animation-duration: 4.5s; animation-delay: -0.8s; }
+  .hero-badge-4 { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.85); bottom: 26%; right: 4%; animation-duration: 3.5s; animation-delay: -2s; }
+  @keyframes hero-badge-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .hero-time { position: absolute; top: 12px; right: 14px; font-size: 11px; color: rgba(255,255,255,0.4); z-index: 10; background: rgba(0,0,0,0.25); padding: 3px 10px; border-radius: 20px; }
+  .hero-content { position: relative; z-index: 5; }
+  .hero-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(245,200,66,0.12); border: 1px solid rgba(245,200,66,0.3); border-radius: 20px; padding: 6px 14px; font-size: 12px; color: var(--accent); margin-bottom: 24px; font-weight: 500; letter-spacing: 0.04em; }
   .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(32px, 6vw, 52px); color: var(--white-pure); line-height: 1.15; margin-bottom: 16px; max-width: 700px; }
   .hero h1 em { color: var(--accent); font-style: normal; }
   .hero p { font-size: 16px; color: rgba(255,255,255,0.65); max-width: 420px; margin-bottom: 36px; line-height: 1.7; }
@@ -195,13 +224,35 @@
   <a href="#aanmelden" onclick="closeMenu()">Snel starten ↗</a>
 </div>
 
-<div class="hero">
-  <div class="hero-tag">&#10003; Speciaal voor taxichauffeurs in Nederland</div>
-  <h1>Boekhouding die<br><em>werkt voor jou</em></h1>
-  <p>Bespaar meer dan €900 per jaar en houd zelf de controle over je financiën.</p>
-  <div class="hero-btns">
-    <a href="#aanmelden" class="btn-primary">Meld je aan!</a>
-    <a href="#hoe-het-werkt" class="btn-ghost">Bekijk hoe het werkt</a>
+<div class="hero" id="hero">
+  <div class="hero-sky" id="hero-sky"></div>
+  <div class="hero-sun" id="hero-sun"></div>
+  <div class="hero-moon" id="hero-moon"></div>
+  <div id="hero-stars"></div>
+  <div id="hero-clouds"></div>
+  <div class="hero-badge hero-badge-1">✓ BTW €273 verwerkt</div>
+  <div class="hero-badge hero-badge-2">💰 €900+ bespaard</div>
+  <div class="hero-badge hero-badge-3">📄 PDF binnen 24u</div>
+  <div class="hero-badge hero-badge-4">⚡ Q1 2026 gereed</div>
+  <div class="hero-ground" id="hero-ground"></div>
+  <div class="hero-road">
+    <div class="hero-road-surface" id="hero-road-surface"></div>
+    <div class="hero-road-edge"></div>
+    <div class="hero-road-line"></div>
+  </div>
+  <div id="hero-poles"></div>
+  <div class="hero-taxi">🚕</div>
+  <div class="hero-taxi">🚖</div>
+  <div class="hero-taxi">🚕</div>
+  <div class="hero-time" id="hero-time"></div>
+  <div class="hero-content">
+    <div class="hero-tag">&#10003; Speciaal voor taxichauffeurs in Nederland</div>
+    <h1>Boekhouding die<br><em>werkt voor jou</em></h1>
+    <p>Bespaar meer dan €900 per jaar en houd zelf de controle over je financiën.</p>
+    <div class="hero-btns">
+      <a href="#aanmelden" class="btn-primary">Meld je aan!</a>
+      <a href="#hoe-het-werkt" class="btn-ghost">Bekijk hoe het werkt</a>
+    </div>
   </div>
 </div>
 
@@ -467,7 +518,90 @@ function sendEmail(e) {
   });
 }
 
-// HAMBURGER MENU
+// DAG/NACHT HERO
+(function() {
+  const hero = document.getElementById('hero');
+  const sky = document.getElementById('hero-sky');
+  const sun = document.getElementById('hero-sun');
+  const moon = document.getElementById('hero-moon');
+  const starsC = document.getElementById('hero-stars');
+  const cloudsC = document.getElementById('hero-clouds');
+  const polesC = document.getElementById('hero-poles');
+  const ground = document.getElementById('hero-ground');
+  const roadSurface = document.getElementById('hero-road-surface');
+  const timeEl = document.getElementById('hero-time');
+
+  for (let i = 0; i < 50; i++) {
+    const s = document.createElement('div');
+    s.className = 'hero-star';
+    s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*70}%;animation-duration:${2+Math.random()*3}s;animation-delay:${-Math.random()*3}s;`;
+    if (Math.random() > 0.6) { s.style.width = '3px'; s.style.height = '3px'; }
+    starsC.appendChild(s);
+  }
+
+  const cloudSVG = '<svg width="120" height="50" viewBox="0 0 120 50"><ellipse cx="60" cy="35" rx="55" ry="18" fill="white" opacity="0.85"/><ellipse cx="40" cy="30" rx="28" ry="20" fill="white" opacity="0.85"/><ellipse cx="75" cy="28" rx="24" ry="18" fill="white" opacity="0.85"/></svg>';
+  [{top:'12%',dur:'25s',delay:'0s'},{top:'20%',dur:'35s',delay:'-12s'},{top:'8%',dur:'30s',delay:'-20s'}].forEach(c => {
+    const d = document.createElement('div');
+    d.className = 'hero-cloud';
+    d.style.cssText = `top:${c.top};animation-duration:${c.dur};animation-delay:${c.delay};`;
+    d.innerHTML = cloudSVG;
+    cloudsC.appendChild(d);
+  });
+
+  [14, 36, 62, 84].forEach(leftPct => {
+    const pole = document.createElement('div');
+    pole.className = 'hero-pole';
+    pole.style.left = leftPct + '%';
+    pole.innerHTML = '<div class="hero-pole-arm"></div><div class="hero-pole-light"></div><div class="hero-pole-stick"></div><div class="hero-pole-glow"></div>';
+    polesC.appendChild(pole);
+  });
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function lerpRGB(c1, c2, t) { return `rgb(${Math.round(lerp(c1[0],c2[0],t))},${Math.round(lerp(c1[1],c2[1],t))},${Math.round(lerp(c1[2],c2[2],t))})`; }
+
+  function getT() {
+    const h = new Date().getHours() + new Date().getMinutes() / 60;
+    if (h >= 6 && h < 9) return (h - 6) / 3;
+    if (h >= 9 && h < 18) return 1;
+    if (h >= 18 && h < 21) return 1 - (h - 18) / 3;
+    return 0;
+  }
+
+  function applyTheme() {
+    const t = getT();
+    const h = new Date().getHours();
+    const m = new Date().getMinutes();
+    timeEl.textContent = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+
+    const nightSky = [10, 10, 30];
+    const dawnSky = [180, 100, 60];
+    const daySky = [30, 90, 170];
+    let skyCol = t >= 0.8 ? lerpRGB(dawnSky, daySky, (t-0.8)*5) : t > 0 ? lerpRGB(nightSky, dawnSky, t/0.8) : lerpRGB(nightSky, nightSky, 1);
+
+    sky.style.background = skyCol;
+    hero.style.background = skyCol;
+
+    const sunX = 10 + t * 65;
+    const sunY = t < 0.5 ? 60 - t * 80 : (t-0.5) * 100 + 20;
+    sun.style.left = sunX + '%'; sun.style.top = sunY + 'px'; sun.style.opacity = t;
+    moon.style.left = '75%'; moon.style.top = '50px'; moon.style.opacity = 1 - t;
+
+    document.querySelectorAll('.hero-star').forEach(s => s.style.opacity = t > 0.3 ? '0' : '');
+    document.querySelectorAll('.hero-cloud').forEach(c => c.style.opacity = t);
+    ground.style.background = lerpRGB([22,34,22],[34,100,34], t);
+    roadSurface.style.background = lerpRGB([20,20,20],[60,60,60], t * 0.5);
+
+    const lo = Math.max(0, 1 - t * 1.2);
+    document.querySelectorAll('.hero-pole-light').forEach(l => {
+      l.style.opacity = lo;
+      l.style.boxShadow = lo > 0.2 ? `0 0 ${16*lo}px rgba(251,191,36,${0.9*lo}), 0 0 ${32*lo}px rgba(251,191,36,${0.4*lo})` : 'none';
+    });
+    document.querySelectorAll('.hero-pole-glow').forEach(g => g.style.opacity = lo);
+  }
+
+  applyTheme();
+  setInterval(applyTheme, 60000);
+})();
 function toggleMenu() {
   document.getElementById('mobile-menu').classList.toggle('open');
 }
@@ -482,7 +616,7 @@ document.addEventListener('click', function(e) {
   }
 });
 
-// REVIEWS SLIDER
+// HAMBURGER MENU
 let revPage = 0;
 const revTotal = 2;
 function revSlide(dir) {
