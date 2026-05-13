@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bedankt! — TaxiBoek</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --dark: #0f0f1a; --accent: #f5c842; --white: #fdf8f0; --gray: #f0e8d8; --text: #1a1a2e; --muted: #6b6b80; --border: #e8dfc8; --green: #16a34a; }
+  body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--white); min-height: 100vh; display: flex; flex-direction: column; }
+  nav { background: var(--dark); padding: 0 24px; height: 64px; display: flex; align-items: center; }
+  .nav-logo { font-family: 'DM Serif Display', serif; font-size: 22px; color: #fff; text-decoration: none; }
+  .nav-logo span { color: var(--accent); }
+  .main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 48px 24px; }
+  .card { background: var(--white); border: 1px solid var(--border); border-radius: 20px; padding: 48px 40px; max-width: 480px; width: 100%; text-align: center; box-shadow: 0 4px 32px rgba(0,0,0,0.06); }
+  .icon { font-size: 56px; margin-bottom: 20px; display: block; }
+  h1 { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--dark); margin-bottom: 12px; }
+  .sub { font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 32px; }
+  .steps { display: flex; flex-direction: column; gap: 14px; margin-bottom: 36px; text-align: left; }
+  .step { display: flex; gap: 14px; align-items: flex-start; background: var(--gray); border-radius: 12px; padding: 14px 16px; }
+  .step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--dark); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; flex-shrink: 0; }
+  .step-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+  .step-text strong { display: block; font-weight: 500; margin-bottom: 2px; }
+  .btn-home { display: inline-block; background: var(--accent); color: var(--dark); border-radius: 10px; padding: 13px 28px; font-size: 15px; font-weight: 700; text-decoration: none; transition: opacity 0.2s; }
+  .btn-home:hover { opacity: 0.85; }
+  footer { padding: 20px 24px; text-align: center; font-size: 12px; color: var(--muted); border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">🚕 Taxi<span>Boek</span></a>
+</nav>
+<div class="main">
+  <div class="card">
+    <span class="icon">🎉</span>
+    <h1>Bedankt voor je aanmelding!</h1>
+    <p class="sub">Welkom bij TaxiBoek! De vervolgstappen vind je in de mail die wij zojuist naar je hebben gestuurd.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          <strong>Check je mailbox</strong>
+          Je hebt een mail ontvangen met jouw persoonlijke checklist en alle informatie.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          <strong>Loop de checklist door</strong>
+          Open de link in de mail en vink aan wat je al hebt.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          <strong>Stuur alles op via WhatsApp</strong>
+          Wij verwerken het en je hebt binnen 24 uur je overzicht terug.
+        </div>
+      </div>
+    </div>
+    <a href="index.html" class="btn-home">Terug naar home</a>
+  </div>
+</div>
+<footer>&copy; 2026 TaxiBoek &middot; info@taxiboek.nl</footer>
+</body>
+</html>
