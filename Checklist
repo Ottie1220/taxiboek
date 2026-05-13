@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist — TaxiBoek</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --dark: #0f0f1a; --accent: #f5c842; --white: #fdf8f0; --gray: #f0e8d8; --text: #1a1a2e; --muted: #6b6b80; --border: #e8dfc8; --green: #16a34a; }
+  body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--white); min-height: 100vh; }
+
+  nav { background: var(--dark); padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { font-family: 'DM Serif Display', serif; font-size: 22px; color: #fff; text-decoration: none; }
+  .nav-logo span { color: var(--accent); }
+  .nav-back { font-size: 13px; color: rgba(255,255,255,0.6); text-decoration: none; }
+  .nav-back:hover { color: #fff; }
+
+  .hero { background: var(--dark); padding: 48px 24px 40px; text-align: center; }
+  .hero-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(245,200,66,0.15); border: 1px solid rgba(245,200,66,0.3); border-radius: 20px; padding: 5px 14px; font-size: 12px; color: var(--accent); margin-bottom: 16px; }
+  .hero h1 { font-family: 'DM Serif Display', serif; font-size: 32px; color: #fff; margin-bottom: 10px; }
+  .hero p { font-size: 14px; color: rgba(255,255,255,0.6); max-width: 440px; margin: 0 auto; line-height: 1.6; }
+
+  .progress-bar { background: rgba(255,255,255,0.08); height: 6px; }
+  .progress-fill { background: var(--accent); height: 100%; transition: width 0.4s ease; width: 0%; }
+
+  .main { max-width: 680px; margin: 0 auto; padding: 40px 24px 60px; }
+
+  .progress-label { text-align: center; font-size: 13px; color: var(--muted); margin-bottom: 32px; }
+  .progress-label strong { color: var(--text); }
+
+  .category { margin-bottom: 24px; }
+  .cat-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .cat-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .cat-title { font-size: 15px; font-weight: 500; color: var(--text); }
+  .cat-count { font-size: 12px; color: var(--muted); margin-left: auto; }
+
+  .check-list { display: flex; flex-direction: column; gap: 8px; }
+  .check-item { display: flex; align-items: flex-start; gap: 12px; background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; cursor: pointer; transition: all 0.2s; }
+  .check-item:hover { border-color: var(--accent); }
+  .check-item.done { background: #f0fdf4; border-color: #bbf7d0; }
+  .check-box { width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--border); flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; background: var(--white); }
+  .check-item.done .check-box { background: var(--green); border-color: var(--green); }
+  .check-box-tick { display: none; color: #fff; font-size: 13px; font-weight: 700; }
+  .check-item.done .check-box-tick { display: block; }
+  .check-content { flex: 1; }
+  .check-label { font-size: 14px; color: var(--text); line-height: 1.4; font-weight: 500; }
+  .check-item.done .check-label { color: var(--muted); text-decoration: line-through; }
+  .check-sub { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+  .check-item.done .check-sub { color: #86efac; }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+
+  .done-banner { display: none; background: var(--green); border-radius: 14px; padding: 24px; text-align: center; margin-bottom: 24px; }
+  .done-banner.show { display: block; }
+  .done-banner h2 { font-family: 'DM Serif Display', serif; font-size: 22px; color: #fff; margin-bottom: 8px; }
+  .done-banner p { font-size: 14px; color: rgba(255,255,255,0.85); margin-bottom: 18px; }
+  .whatsapp-btn { display: inline-flex; align-items: center; gap: 8px; background: #fff; color: var(--green); border: none; border-radius: 10px; padding: 12px 22px; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; text-decoration: none; }
+
+  .whatsapp-float { position: fixed; bottom: 24px; right: 24px; background: #25d366; color: #fff; border-radius: 50px; padding: 12px 20px; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px; text-decoration: none; box-shadow: 0 4px 20px rgba(37,211,102,0.4); transition: opacity 0.2s; }
+  .whatsapp-float:hover { opacity: 0.9; }
+
+  .tip-box { background: var(--gray); border-radius: 12px; padding: 18px 20px; margin-top: 28px; }
+  .tip-box h3 { font-size: 14px; font-weight: 500; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .tip-box p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  .reset-btn { display: block; margin: 24px auto 0; background: none; border: 1px solid var(--border); border-radius: 8px; padding: 8px 18px; font-size: 13px; color: var(--muted); cursor: pointer; font-family: 'DM Sans', sans-serif; }
+  .reset-btn:hover { color: var(--text); border-color: var(--text); }
+
+  footer { text-align: center; padding: 24px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">🚕 Taxi<span>Boek</span></a>
+  <a href="index.html" class="nav-back">← Terug naar home</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">✓ Jouw persoonlijke checklist</div>
+  <h1>Heb je alles bij de hand?</h1>
+  <p>Vink alles af wat je al hebt. Zodra alles groen is stuur je het op via WhatsApp en verwerken wij het binnen 24 uur.</p>
+</div>
+
+<div class="progress-bar">
+  <div class="progress-fill" id="progress-fill"></div>
+</div>
+
+<div class="main">
+
+  <p class="progress-label"><strong id="progress-text">0</strong> van <strong id="progress-total">0</strong> items klaar</p>
+
+  <div class="done-banner" id="done-banner">
+    <h2>🎉 Alles klaar!</h2>
+    <p>Top! Je hebt alles bij de hand. Stuur nu alles op via WhatsApp en wij verwerken het binnen 24 uur.</p>
+    <a href="https://wa.me/31600000000" class="whatsapp-btn">📱 Stuur alles op via WhatsApp</a>
+  </div>
+
+  <!-- INKOMSTEN -->
+  <div class="category">
+    <div class="cat-header">
+      <div class="cat-icon" style="background:#f0f9ff">💰</div>
+      <div class="cat-title">Inkomsten</div>
+      <div class="cat-count" id="count-inkomsten"></div>
+    </div>
+    <div class="check-list">
+      <div class="check-item" onclick="toggle(this)" data-cat="inkomsten">
+        <div class="check-box"><span class="check-box-tick">✓</span></div>
+        <div class="check-content">
+          <div class="check-label">Uber uitbetalingsoverzicht</div>
+          <div class="check-sub">PDF of Excel — alle maanden van het kwartaal</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggle(this)" data-cat="inkomsten">
+        <div class="check-box"><span class="check-box-tick">✓</span></div>
+        <div class="check-content">
+          <div class="check-label">Bolt afrekening</div>
+          <div class="check-sub">PDF of Excel — alle maanden van het kwartaal</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggle(this)" data-cat="inkomsten">
+        <div class="check-box"><span class="check-box-tick">✓</span></div>
+        <div class="check-content">
+          <div class="check-label">iZettle / myPOS / SumUp verkooprapport</div>
+          <div class="check-sub">PDF via PayPal of je betaalapp — per maand</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggle(this)" data-cat="inkomsten">
+        <div class="check-box"><span class="check-box-tick">✓</span></div>
+        <div class="check-content">
+          <div class="check-label">Andere inkomsten (indien van toepassing)</div>
+          <div class="check-sub">Losse ritten, contante betalingen, andere platforms — alles is welkom!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- TANKKOSTEN -->
+  <div class="category">
+    <div class="cat-header">
+      <div class="cat-icon" style="background:#fefce8">⛽</div>
+      <div class="cat-title">Brandstof & laden</div>
+      <div class="cat-count" id="count-brandstof"></div>
+    </div>
+    <div class="check-list">
+      <div class="check-item" onclick="toggle(this)" data-cat="brandstof">
+        <div class="check-box"><span class="check-box-tick">✓</span></div>
+        <div class="check-content">
+          <div class="check-label">Tankbonnen</div>
+          <div class="check-sub">Maak een foto van de bon en stuur hem direct via WhatsApp — zo raak je hem nooit kwijt</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggle(this)" data-cat="brandstof">
+        <div class="check-box"><span class="check-box-tick">✓</span></div>
+        <div class="check-content">
+          <div class="check-label">Laadkosten elektrisch</div>
+          <div class="check-sub">Overzicht van je laadpas of app — per maand</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- AUTO -->
+  <div class="category">
+    <div class="cat-header">
+      <div class="cat-icon" style="background:#fdf2f8">🚗</div>
+      <div class="cat-title">Auto kosten</div>
+      <div class="cat-count" id="count-auto"></div>
+    </div>
+    <div class="check-list">
+      <div class="check-item" onclick="toggle(this)" data-cat="auto">
+        <div class="check-box"><span class="check-box-tick">✓</span></div>
+        <div class="check-content">
+          <div class="check-label">Lease factuur</div>
+          <div class="check-sub">Maandelijkse factuur van je leasemaatschappij</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggle(this)" data-cat="auto">
+        <div class="check-box"><span class="check-box-tick">✓</span></div>
+        <div class="check-content">
+          <div class="check-label">Verzekeringspremie</div>
+          <div class="check-sub">Factuur of bankafschrift van je verzekering</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggle(this)" data-cat="auto">
+        <div class="check-box"><span class="check-box-tick">✓</span></div>
+        <div class="check-content">
+          <div class="check-label">Onderhoud & reparatie bonnen</div>
+          <div class="check-sub">Garage facturen, APK, banden — foto direct opsturen</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggle(this)" data-cat="auto">
+        <div class="check-box"><span class="check-box-tick">✓</span></div>
+        <div class="check-content">
+          <div class="check-label">Wasstraat bonnen</div>
+          <div class="check-sub">Foto van de bon direct na het wassen opsturen</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- OVERIG -->
+  <div class="category">
+    <div class="cat-header">
+      <div class="cat-icon" style="background:#f0fdf4">📋</div>
+      <div class="cat-title">Overige zakelijke kosten</div>
+      <div class="cat-count" id="count-overig"></div>
+    </div>
+    <div class="check-list">
+      <div class="check-item" onclick="toggle(this)" data-cat="overig">
+        <div class="check-box"><span class="check-box-tick">✓</span></div>
+        <div class="check-content">
+          <div class="check-label">TTO kosten (Taxistad, Hallo etc.)</div>
+          <div class="check-sub">Facturen van je taxi-platform organisatie</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggle(this)" data-cat="overig">
+        <div class="check-box"><span class="check-box-tick">✓</span></div>
+        <div class="check-content">
+          <div class="check-label">Bankkosten</div>
+          <div class="check-sub">Bankafschrift of factuur van je bank</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggle(this)" data-cat="overig">
+        <div class="check-box"><span class="check-box-tick">✓</span></div>
+        <div class="check-content">
+          <div class="check-label">Overige zakelijke bonnen</div>
+          <div class="check-sub">Alles wat je zakelijk hebt uitgegeven — stuur het op, wij kijken wat aftrekbaar is</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <h3>💡 Tip — stuur bonnen direct in</h3>
+    <p>Maak een foto van je bon zodra je iets koopt en stuur hem meteen via WhatsApp. Zo raak je nooit een bon kwijt en hoef je aan het einde van het kwartaal niets meer terug te zoeken. Jij houdt in je WhatsApp-chat ook zelf een overzicht bij!</p>
+  </div>
+
+  <button class="reset-btn" onclick="resetAll()">↺ Alles opnieuw beginnen</button>
+
+</div>
+
+<a href="https://wa.me/31600000000" class="whatsapp-float">
+  📱 Stuur op via WhatsApp
+</a>
+
+<footer>
+  &copy; 2026 TaxiBoek &middot; <a href="index.html" style="color:var(--muted)">Terug naar home</a>
+</footer>
+
+<script>
+const cats = ['inkomsten', 'brandstof', 'auto', 'overig'];
+
+function toggle(item) {
+  item.classList.toggle('done');
+  updateProgress();
+}
+
+function updateProgress() {
+  const all = document.querySelectorAll('.check-item');
+  const done = document.querySelectorAll('.check-item.done');
+  const total = all.length;
+  const checked = done.length;
+  const pct = Math.round((checked / total) * 100);
+
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = checked;
+  document.getElementById('progress-total').textContent = total;
+
+  // Per categorie teller
+  cats.forEach(cat => {
+    const catAll = document.querySelectorAll(`[data-cat="${cat}"]`).length;
+    const catDone = document.querySelectorAll(`[data-cat="${cat}"].done`).length;
+    const el = document.getElementById(`count-${cat}`);
+    if (el) el.textContent = `${catDone} / ${catAll}`;
+  });
+
+  // Done banner
+  const banner = document.getElementById('done-banner');
+  if (checked === total) {
+    banner.classList.add('show');
+    banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } else {
+    banner.classList.remove('show');
+  }
+}
+
+function resetAll() {
+  document.querySelectorAll('.check-item.done').forEach(i => i.classList.remove('done'));
+  updateProgress();
+}
+
+// Init
+window.addEventListener('load', updateProgress);
+</script>
+
+</body>
+</html>
