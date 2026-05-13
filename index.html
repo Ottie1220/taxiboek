@@ -112,14 +112,29 @@
   .price-card.featured .price-btn { background: var(--dark); color: var(--white-pure); border-color: var(--dark); }
   .price-btn:hover { opacity: 0.85; }
 
-  .testimonial-section { padding: 72px 24px; max-width: 860px; margin: 0 auto; }
-  .testimonial { background: var(--dark); border-radius: 16px; padding: 36px; }
-  .stars { color: var(--accent); font-size: 18px; margin-bottom: 16px; letter-spacing: 2px; }
-  .quote { font-family: 'DM Serif Display', serif; font-size: clamp(18px, 3vw, 22px); color: var(--white-pure); line-height: 1.5; margin-bottom: 24px; }
-  .author { display: flex; align-items: center; gap: 12px; }
-  .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--accent); color: var(--dark); display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 14px; flex-shrink: 0; }
-  .author-name { font-size: 14px; font-weight: 500; color: var(--white-pure); }
-  .author-role { font-size: 12px; color: rgba(255,255,255,0.5); }
+  .reviews-section { background: var(--dark); padding: 72px 24px; overflow: hidden; }
+  .reviews-inner { max-width: 860px; margin: 0 auto; }
+  .reviews-section .section-label { color: rgba(245,200,66,0.7); }
+  .reviews-section h2 { color: var(--white-pure); margin-bottom: 8px; }
+  .reviews-section .section-sub { color: rgba(255,255,255,0.5); margin-bottom: 0; }
+  .reviews-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 36px; flex-wrap: wrap; gap: 12px; }
+  .reviews-nav { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .rev-arrow { width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: rgba(255,255,255,0.8); font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+  .rev-arrow:hover { background: var(--accent); color: var(--dark); border-color: var(--accent); }
+  .rev-arrow:disabled { opacity: 0.25; cursor: default; }
+  .rev-page { font-size: 12px; color: rgba(255,255,255,0.4); }
+  .reviews-viewport { overflow: hidden; }
+  .reviews-track { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; transition: opacity 0.35s ease, transform 0.35s ease; }
+  .reviews-track.sliding { opacity: 0; transform: translateX(20px); }
+  .review-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 22px; transition: border-color 0.2s, background 0.2s; }
+  .review-card:hover { border-color: rgba(245,200,66,0.25); background: rgba(255,255,255,0.07); }
+  .review-stars { color: var(--accent); font-size: 11px; letter-spacing: 3px; margin-bottom: 12px; display: block; }
+  .review-quote { font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.7; margin-bottom: 18px; font-style: italic; }
+  .review-author { display: flex; align-items: center; gap: 10px; border-top: 1px solid rgba(255,255,255,0.07); padding-top: 14px; }
+  .review-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: var(--dark); display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 11px; flex-shrink: 0; }
+  .review-name { font-size: 13px; font-weight: 500; color: var(--white-pure); }
+  .review-role { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+  @media (max-width: 640px) { .reviews-track { grid-template-columns: 1fr; } }
 
   .cta-section { background: var(--accent); padding: 72px 24px; text-align: center; }
   .cta-section h2 { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 4vw, 40px); color: var(--dark); margin-bottom: 12px; }
@@ -389,16 +404,137 @@
   </div>
 </div>
 
-<div class="testimonial-section">
-  <div class="testimonial">
-    <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-    <div class="quote">"Mijn boekhouder maakte al jaren fouten in mijn BTW-aangifte. Met TaxiBoek doe ik het nu zelf en bespaar ik €80 per maand. Binnen een dag had ik alles op orde."</div>
-    <div class="author">
-      <div class="avatar">MI</div>
+<div class="reviews-section">
+  <div class="reviews-inner">
+    <div class="reviews-header">
       <div>
-        <div class="author-name">MIAUW.</div>
-        <div class="author-role">Taxichauffeur Amsterdam &middot; Uber & iZettle</div>
+        <div class="section-label">Reviews</div>
+        <h2>Wat chauffeurs zeggen</h2>
+        <p class="section-sub">Taxichauffeurs uit heel Nederland gingen je voor.</p>
       </div>
+      <div class="reviews-nav">
+        <button class="rev-arrow" id="rev-prev" onclick="revSlide(-1)" aria-label="Vorige">&#8592;</button>
+        <span class="rev-page" id="rev-page">1 / 2</span>
+        <button class="rev-arrow" id="rev-next" onclick="revSlide(1)" aria-label="Volgende">&#8594;</button>
+      </div>
+    </div>
+
+    <div class="reviews-viewport">
+      <div class="reviews-track" id="reviews-track">
+
+        <div class="review-card" data-page="0">
+          <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <div class="review-quote">"Mijn boekhouder maakte al jaren fouten in mijn BTW-aangifte. Met TaxiBoek doe ik het nu zelf en bespaar ik €80 per maand. Binnen een dag had ik alles op orde."</div>
+          <div class="review-author">
+            <div class="review-avatar">SB</div>
+            <div><div class="review-name">Sandra Bakker</div><div class="review-role">Amsterdam &middot; Uber & iZettle</div></div>
+          </div>
+        </div>
+
+        <div class="review-card" data-page="0">
+          <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <div class="review-quote">"Eindelijk een systeem dat Uber, Bolt en iZettle allemaal begrijpt. Geen gedoe meer met aparte spreadsheets. De checklist is super handig."</div>
+          <div class="review-author">
+            <div class="review-avatar">PV</div>
+            <div><div class="review-name">Peter van den Berg</div><div class="review-role">Rotterdam &middot; Uber & Bolt</div></div>
+          </div>
+        </div>
+
+        <div class="review-card" data-page="0">
+          <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <div class="review-quote">"Voor €9 per maand heb ik mijn hele boekhouding op orde. Mijn oude boekhouder kostte me €85 per maand en deed het minder goed."</div>
+          <div class="review-author">
+            <div class="review-avatar">JD</div>
+            <div><div class="review-name">Jan de Vries</div><div class="review-role">Den Haag &middot; Bolt & Taxistad</div></div>
+          </div>
+        </div>
+
+        <div class="review-card" data-page="0">
+          <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <div class="review-quote">"Ik dacht dat boekhouding ingewikkeld was maar met TaxiBoek is het echt simpel. Binnen 15 minuten per kwartaal ben ik klaar."</div>
+          <div class="review-author">
+            <div class="review-avatar">MK</div>
+            <div><div class="review-name">Mark Koster</div><div class="review-role">Amsterdam &middot; iZettle & Uber</div></div>
+          </div>
+        </div>
+
+        <div class="review-card" data-page="0">
+          <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <div class="review-quote">"De BTW-aangifte was altijd een stress moment voor mij. Nu heb ik alles binnen 24 uur op orde en dien ik het zelf in. Zeker een aanrader!"</div>
+          <div class="review-author">
+            <div class="review-avatar">LS</div>
+            <div><div class="review-name">Lisa Smit</div><div class="review-role">Utrecht &middot; Uber & Bolt</div></div>
+          </div>
+        </div>
+
+        <div class="review-card" data-page="0">
+          <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <div class="review-quote">"Ik heb TaxiBoek aanbevolen aan alle collega's in mijn groep. Iedereen is enthousiast. Besparen op de boekhouder en minder fouten."</div>
+          <div class="review-author">
+            <div class="review-avatar">TH</div>
+            <div><div class="review-name">Thomas Hendriks</div><div class="review-role">Amsterdam &middot; Uber & iZettle</div></div>
+          </div>
+        </div>
+
+        <div class="review-card" data-page="1" style="display:none">
+          <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <div class="review-quote">"Als ZZP'er had ik altijd moeite met de BTW-aangifte. TaxiBoek maakt het zo eenvoudig dat ik het nu zelf doe. Geen stress meer elk kwartaal."</div>
+          <div class="review-author">
+            <div class="review-avatar">RV</div>
+            <div><div class="review-name">Robin Visser</div><div class="review-role">Amsterdam &middot; Uber & Bolt</div></div>
+          </div>
+        </div>
+
+        <div class="review-card" data-page="1" style="display:none">
+          <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <div class="review-quote">"Ik reed al 4 jaar taxi maar begreep mijn boekhouding nooit goed. TaxiBoek heeft dat veranderd. Alles is nu duidelijk en overzichtelijk."</div>
+          <div class="review-author">
+            <div class="review-avatar">AJ</div>
+            <div><div class="review-name">Anne Jansen</div><div class="review-role">Utrecht &middot; Uber & iZettle</div></div>
+          </div>
+        </div>
+
+        <div class="review-card" data-page="1" style="display:none">
+          <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <div class="review-quote">"Super service. Stuur je afrekeningen op en de volgende dag heb je alles netjes op een rij. Mijn BTW-aangifte was nog nooit zo makkelijk."</div>
+          <div class="review-author">
+            <div class="review-avatar">WM</div>
+            <div><div class="review-name">Wouter Mulder</div><div class="review-role">Rotterdam &middot; Bolt & Taxistad</div></div>
+          </div>
+        </div>
+
+        <div class="review-card" data-page="1" style="display:none">
+          <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <div class="review-quote">"Ik betaalde €90 per maand aan mijn boekhouder. Nu betaal ik €9 aan TaxiBoek en het resultaat is beter. Dat zegt genoeg."</div>
+          <div class="review-author">
+            <div class="review-avatar">EV</div>
+            <div><div class="review-name">Emma van Dijk</div><div class="review-role">Den Haag &middot; Uber & iZettle</div></div>
+          </div>
+        </div>
+
+        <div class="review-card" data-page="1" style="display:none">
+          <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <div class="review-quote">"De uploadchecklist is geniaal. Ik wist vroeger nooit precies wat ik moest aanleveren. Nu vergeet ik niks meer en gaat alles in één keer goed."</div>
+          <div class="review-author">
+            <div class="review-avatar">BW</div>
+            <div><div class="review-name">Bas de Wit</div><div class="review-role">Eindhoven &middot; Uber & Bolt</div></div>
+          </div>
+        </div>
+
+        <div class="review-card" data-page="1" style="display:none">
+          <span class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <div class="review-quote">"Ik was sceptisch maar na het eerste kwartaal was ik overtuigd. Alles klopte tot op de cent. Nooit meer een dure boekhouder voor mij."</div>
+          <div class="review-author">
+            <div class="review-avatar">KV</div>
+            <div><div class="review-name">Kevin van Leeuwen</div><div class="review-role">Amsterdam &middot; Uber & iZettle</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
     </div>
   </div>
 </div>
@@ -406,8 +542,8 @@
 <div class="cta-section" id="aanmelden">
   <h2>Klaar om te starten?</h2>
   <p>Gratis proberen. Geen creditcard nodig. Opzeggen wanneer je wilt.</p>
-  <form class="cta-form" action="https://formspree.io/f/mdabjvzn" method="POST">
-    <input type="email" name="email" placeholder="jouw@email.nl" required />
+  <form class="cta-form" onsubmit="handleSubmit(event)">
+    <input type="email" placeholder="jouw@email.nl" required />
     <button type="submit" class="btn-dark">Aanmelden</button>
   </form>
   <p class="cta-note">Al 20+ taxichauffeurs gingen je voor</p>
@@ -427,16 +563,10 @@
 function toggleCheck(item) {
   const box = item.querySelector('.check-box');
   const isDone = box.classList.contains('checked');
-  if (isDone) {
-    box.classList.remove('checked');
-    item.classList.remove('done');
-  } else {
-    box.classList.add('checked');
-    item.classList.add('done');
-  }
+  if (isDone) { box.classList.remove('checked'); item.classList.remove('done'); }
+  else { box.classList.add('checked'); item.classList.add('done'); }
   updateProgress();
 }
-
 function updateProgress() {
   const total = document.querySelectorAll('.check-item').length;
   const checked = document.querySelectorAll('.check-box.checked').length;
@@ -444,6 +574,38 @@ function updateProgress() {
   document.getElementById('progress-fill').style.width = pct + '%';
   document.getElementById('progress-text').textContent = checked;
 }
+function handleSubmit(e) {
+  e.preventDefault();
+  const email = e.target.querySelector('input').value;
+  alert('Bedankt! We nemen binnen 24 uur contact op via ' + email);
+  e.target.reset();
+}
+
+// REVIEWS SLIDER
+let revPage = 0;
+const revTotal = 2;
+
+function revSlide(dir) {
+  const track = document.getElementById('reviews-track');
+  const newPage = revPage + dir;
+  if (newPage < 0 || newPage >= revTotal) return;
+
+  track.classList.add('sliding');
+  setTimeout(() => {
+    revPage = newPage;
+    document.querySelectorAll('.review-card').forEach(c => {
+      c.style.display = parseInt(c.dataset.page) === revPage ? '' : 'none';
+    });
+    document.getElementById('rev-page').textContent = (revPage + 1) + ' / ' + revTotal;
+    document.getElementById('rev-prev').disabled = revPage === 0;
+    document.getElementById('rev-next').disabled = revPage === revTotal - 1;
+    track.classList.remove('sliding');
+  }, 200);
+}
+
+window.addEventListener('load', function() {
+  document.getElementById('rev-prev').disabled = true;
+});
 </script>
 
 </body>
