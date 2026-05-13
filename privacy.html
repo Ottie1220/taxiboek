@@ -7,12 +7,12 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root { --dark: #0f0f1a; --accent: #f5c842; --white: #faf9f6; --gray: #f0ede6; --text: #1a1a2e; --muted: #6b6b80; --border: #e2ddd4; }
-  body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--white); }
-  nav { position: sticky; top: 0; z-index: 100; background: var(--white); border-bottom: 1px solid var(--border); padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+  :root { --dark: #0f0f1a; --accent: #f5c842; --white: #fdf8f0; --gray: #f0e8d8; --text: #1a1a2e; --muted: #6b6b80; --border: #e8dfc8; }
+  body { font-family: 'DM Sans', sans-serif; color: var(--text); background: #fdf8f0; }
+  nav { position: sticky; top: 0; z-index: 100; background: #fdf8f0; border-bottom: 1px solid var(--border); padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
   .nav-logo { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--dark); text-decoration: none; }
   .nav-logo span { color: var(--accent); }
-  .back-btn { font-size: 14px; color: var(--muted); text-decoration: none; }
+  .back-btn { font-size: 14px; color: var(--muted); text-decoration: none; } .nav-links-small { display: flex; align-items: center; gap: 16px; } .nav-links-small a { font-size: 13px; color: var(--muted); text-decoration: none; }
   .back-btn:hover { color: var(--text); }
   .page-hero { background: var(--dark); padding: 60px 24px; text-align: center; }
   .page-hero h1 { font-family: 'DM Serif Display', serif; font-size: 36px; color: #fff; margin-bottom: 12px; }
@@ -28,8 +28,8 @@
 </head>
 <body>
 <nav>
-  <a href="index.html" class="nav-logo">Taxi<span>Boek</span></a>
-  <a href="index.html" class="back-btn">&#8592; Terug naar home</a>
+  <a href="index.html" class="nav-logo">🚕 Taxi<span>Boek</span></a>
+  <div class="nav-links-small"><a href="over-ons.html">Over ons</a> <a href="contact.html">Contact</a> <a href="#aanmelden" style="background:var(--accent);color:var(--dark);padding:7px 14px;border-radius:7px;font-weight:500;text-decoration:none;font-size:13px;">Snel starten ↗</a></div>
 </nav>
 <div class="page-hero">
   <h1>Privacybeleid</h1>
